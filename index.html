@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="Аэротон: бесплатная платформа для командировок. Билеты, отели, визы и трансферы в одном кабинете, документы по ЭДО, поддержка 24/7. Работаем с 2009 года.">
+  <meta name="description" content="Аэротон — организация командировок в одном окне. Две онлайн-платформы, обслуживание через менеджеров, поддержка 24/7, тревел-политика и интеграции. С 2009 года.">
   <title>Аэротон — командировки для бизнеса</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="lead-config.js" defer></script>
+  <script src="lead-form.js" defer></script>
   <script src="preview.js" defer></script>
 </head>
 <body>
@@ -35,13 +37,13 @@
       <div class="wrap hl-in">
         <div class="hl-copy">
           <h1 id="hero-title" data-r>Командировки сотрудников <em>в&nbsp;одном окне</em></h1>
-          <p class="lead" data-r style="--d:.08s">Билеты, отели, визы и трансферы.<br>Документы — бухгалтеру по ЭДО.</p>
+          <p class="lead" data-r style="--d:.08s">Билеты, отели, визы и трансферы — онлайн или через менеджера.<br>Поддержка 24/7, документы по ЭДО.</p>
           <ul class="facts" data-r style="--d:.16s">
-            <li>Отсрочка платежа</li><li>Сервис 24/7</li><li>Без сервисных сборов</li><li>Тревел-политика</li>
+            <li>Без платы за платформу</li><li>Персональный менеджер</li><li>Гибкая тревел-политика</li>
           </ul>
           <div class="hero-cta" data-r style="--d:.24s">
             <a class="btn" href="#request">Получить демо <svg class="arr" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a>
-            <a class="btn btn-purple" href="#quiz">Рассчитать выгоду</a>
+            <a class="btn btn-purple" href="#quiz">Подобрать решение</a>
           </div>
         </div>
       </div>
@@ -49,8 +51,8 @@
 
     <div class="ticker" aria-label="Коротко об Аэротоне">
     <div class="ticker-track">
-      <span>Работаем с 2009 года</span><span>Ответ на заявку — до 15 минут</span><span>Сервис 24/7, 365 дней в году</span><span>Платформа бесплатная</span><span>Поездки по всему миру</span><span>Отсрочка платежа</span><span>ЭДО: Диадок, СБИС</span><span>300+ авиакомпаний</span>
-      <span aria-hidden="true">Работаем с 2009 года</span><span aria-hidden="true">Ответ на заявку — до 15 минут</span><span aria-hidden="true">Сервис 24/7, 365 дней в году</span><span aria-hidden="true">Платформа бесплатная</span><span aria-hidden="true">Поездки по всему миру</span><span aria-hidden="true">Отсрочка платежа</span><span aria-hidden="true">ЭДО: Диадок, СБИС</span><span aria-hidden="true">300+ авиакомпаний</span>
+      <span>Работаем с 2009 года</span><span>Первичная реакция — ориентир до 15 минут</span><span>Сервис 24/7, 365 дней в году</span><span>Две онлайн-платформы</span><span>Поездки по всему миру</span><span>Отсрочка по согласованию</span><span>ЭДО: Диадок, СБИС</span><span>300+ авиакомпаний</span>
+      <span aria-hidden="true">Работаем с 2009 года</span><span aria-hidden="true">Первичная реакция — ориентир до 15 минут</span><span aria-hidden="true">Сервис 24/7, 365 дней в году</span><span aria-hidden="true">Две онлайн-платформы</span><span aria-hidden="true">Поездки по всему миру</span><span aria-hidden="true">Отсрочка по согласованию</span><span aria-hidden="true">ЭДО: Диадок, СБИС</span><span aria-hidden="true">300+ авиакомпаний</span>
     </div>
   </div>
 
@@ -58,11 +60,11 @@
     <section class="merge" id="services" aria-labelledby="services-title">
       <div class="merge-sticky">
         <div class="wrap merge-head">
-          <h2 id="services-title" class="h-big center">Всё для командировок&nbsp;— <span class="hl">в&nbsp;одной платформе</span></h2>
+          <h2 id="services-title" class="h-big center">Всё для командировок&nbsp;— <span class="hl">в&nbsp;одном окне</span></h2>
         </div>
         <div class="merge-stage" aria-hidden="true">
           <div class="orbit"></div>
-          <div class="win"><b>Поездка собрана!</b><span>Билеты, отель и трансфер — в одном кабинете</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="win"><b>Поездка собрана!</b><span>Онлайн-бронирование и помощь менеджера</span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="laptop">
             <div class="screen">
               <div class="scr-bar"><i></i><i></i><i></i><span>Личный кабинет Аэротона</span></div>
@@ -147,20 +149,31 @@
       </div>
     </section>
 
+    <section class="wrap sect extra-services" aria-labelledby="extra-title">
+      <h2 id="extra-title" class="h-big" data-r>Другие задачи — <span class="hl">тоже к Аэротону</span></h2>
+      <p class="lead" data-r>Один поставщик для рабочих поездок, мероприятий и личных планов команды.</p>
+      <div class="extra-grid" data-r>
+        <article><h3>Concierge</h3><p>Индивидуальный сервис для руководителей и VIP-сотрудников.</p></article>
+        <article><h3>Мероприятия</h3><p>Конференции, корпоративные события, деловые и поощрительные поездки.</p></article>
+        <article><h3>Визы и миграционные вопросы</h3><p>Сопровождение при подготовке документов и организации поездок.</p></article>
+        <article><h3>Личные поездки</h3><p>Специальные условия и скидки для сотрудников корпоративных клиентов.</p></article>
+      </div>
+    </section>
+
     <!-- 3. Деньги и документы -->
     <section class="wrap sect" id="money" aria-labelledby="money-title">
       <h2 id="money-title" class="h-big" data-r>Оплату и документы <span class="hl">берём на&nbsp;себя</span></h2>
       <div class="bento">
         <article class="card c-a" data-r>
           <span class="card-ico slot" aria-hidden="true"><img src="assets/icons/pay.png" alt=""><i>💳</i></span>
-          <h3>Платите после поездки</h3>
-          <p>Отсрочка платежа. Или аванс — как удобнее вашей бухгалтерии.</p>
+          <h3>Оплата по вашим условиям</h3>
+          <p>Отсрочка возможна. Условия оплаты согласуем индивидуально и закрепим в договоре.</p>
           <div class="ill-switch" aria-hidden="true"><span class="sw"><b>Постоплата</b><b>Аванс</b><i></i></span></div>
         </article>
         <article class="card c-b" data-r style="--d:.08s">
           <span class="card-ico slot" aria-hidden="true"><img src="assets/icons/invoice.png" alt=""><i>🧾</i></span>
-          <h3>Один счёт за месяц</h3>
-          <p>Вместо десятков чеков и счетов — один сводный счёт за период, с cost center.</p>
+          <h3>Сводный счёт за период</h3>
+          <p>Согласуем период выставления счетов, центры затрат и формат документов для бухгалтерии.</p>
           <div class="ill-inv" aria-hidden="true">
             <div class="inv-pile"><span class="dc d1"><i></i><i></i><b>Авиа</b></span><span class="dc d2"><i></i><i></i><b>Отель</b></span><span class="dc d3"><i></i><i></i><b>Такси</b></span><span class="dc d4"><i></i><i></i><b>Поезд</b></span></div>
             <div class="inv-card"><p>Счёт за месяц</p><span class="ln r1"><em>Авиа</em><u></u></span><span class="ln r2"><em>Отели</em><u></u></span><span class="ln r3"><em>Такси</em><u></u></span><b class="inv-total">Один счёт ✓</b></div>
@@ -168,8 +181,8 @@
         </article>
         <article class="card c-c" data-r>
           <span class="card-ico slot" aria-hidden="true"><img src="assets/icons/docs.png" alt=""><i>📄</i></span>
-          <h3>Документы приходят сами</h3>
-          <p>Акты, счета-фактуры, маршрутные квитанции — по ЭДО или курьером, бесплатно.</p>
+          <h3>Документы по ЭДО</h3>
+          <p>Акты, счета-фактуры и маршрутные квитанции. Комплект и порядок передачи согласуем с бухгалтерией.</p>
           <div class="ill-docs" aria-hidden="true">
             <span class="bubble-tag">Диадок · СБИС</span>
             <span class="dl">Скачать <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></span>
@@ -178,39 +191,39 @@
         </article>
         <article class="card c-d" data-r style="--d:.08s">
           <span class="card-ico slot" aria-hidden="true"><img src="assets/icons/support.png" alt=""><i>💬</i></span>
-          <h3>Ответ — до 15 минут</h3>
-          <p>Сервис 24/7, закреплённый куратор, можно в мессенджере.</p>
+          <h3>Поддержка 24/7</h3>
+          <p>Персональный менеджер и выделенная команда. Ориентир первичной реакции на заявку — до 15 минут.</p>
           <div class="ill-chat" aria-hidden="true"><span class="msg m-in">Нужен отель на завтра</span><span class="msg m-out">Уже подбираем ✓</span></div>
         </article>
         <article class="card c-e" data-r style="--d:.16s">
           <span class="card-ico slot" aria-hidden="true"><img src="assets/icons/control.png" alt=""><i>📊</i></span>
           <h3>Расходы по правилам</h3>
-          <p>Лимиты на перелёты, отели и питание.</p>
+          <p>Лимиты, грейды, права пользователей и маршруты согласования — по правилам компании.</p>
           <div class="ill-rules" aria-hidden="true">
             <span class="rt">Правила компании</span>
             <div class="rl"><span>Перелёт</span><div class="trk"><i class="f f1"></i><u></u></div><em class="ok">✓</em></div>
             <div class="rl"><span>Отель</span><div class="trk"><i class="f f2"></i><u></u></div><em class="ok">✓</em></div>
             <div class="rl over"><span>Питание</span><div class="trk"><i class="f f3"></i><u></u></div><em class="no"><svg viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></em></div>
-            <div class="rule-msg">Выше лимита — отправим на согласование</div>
+            <div class="rule-msg">Выше лимита — запрет или согласование</div>
           </div>
         </article>
       </div>
     </section>
 
     <!-- 4. Сильный тезис -->
-    <section class="wrap sect" aria-label="Бесплатно и экономия">
+    <section class="wrap sect" aria-label="Стоимость платформы и оптимизация бюджета">
       <div class="banners">
         <div class="banner banner-free" data-r>
           <svg class="banner-plane" viewBox="0 0 400 300" aria-hidden="true"><path d="M20 260 380 40 250 280 190 190Z" fill="#fff" fill-opacity=".1"/><path d="M190 190 380 40" stroke="#fff" stroke-opacity=".14" stroke-width="3"/></svg>
-          <p class="banner-k">Бесплатно</p>
-          <p class="banner-t">для вашей компании</p>
-          <p class="banner-s">Без абонентской платы, скрытых комиссий и платы за подключение. Аэротон получает вознаграждение от&nbsp;авиакомпаний и&nbsp;отелей</p>
+          <p class="banner-k">0 ₽</p>
+          <p class="banner-t">за использование платформы</p>
+          <p class="banner-s">Вы оплачиваете оформленные услуги и сервисные сборы. Размер сборов зависит от объёма и формата работы и согласовывается индивидуально.</p>
         </div>
         <div class="banner banner-save" data-r style="--d:.08s">
         <svg class="banner-plane" viewBox="0 0 400 300" aria-hidden="true"><path d="M20 260 380 40 250 280 190 190Z" fill="#fff" fill-opacity=".08"/><path d="M190 190 380 40" stroke="#fff" stroke-opacity=".12" stroke-width="3"/></svg>
         <p class="banner-k">До 30%</p>
         <p class="banner-t">экономии на тревел-бюджете</p>
-        <p class="banner-s">Спецтарифы, трёхсторонние соглашения с&nbsp;авиакомпаниями и&nbsp;отелями, контроль стоимости</p>
+        <p class="banner-s">Оптимизация за счёт тарифов, правил бронирования и контроля расходов. Результат зависит от поездок и условий компании.</p>
       </div>
       </div>
     </section>
@@ -225,7 +238,7 @@
             <div class="rcard-body">
               <p class="rlabel">Руководителю</p>
               <h3>Видит все расходы</h3>
-              <ul class="ticks"><li><b>Отсрочка платежа</b><span>Комфортный график расчётов</span></li><li><b>Тревел-политика</b><span>Лимиты и схемы согласования</span></li><li><b>Прозрачный бюджет</b><span>Кост-центры, отчёты, SLA</span></li></ul>
+              <ul class="ticks"><li><b>Отсрочка платежа</b><span>Условия согласуем индивидуально</span></li><li><b>Тревел-политика</b><span>Лимиты и схемы согласования</span></li><li><b>Прозрачный бюджет</b><span>Центры затрат и отчёты</span></li></ul>
             </div>
           </article>
           <article class="rcard" data-r style="--d:.08s">
@@ -233,15 +246,15 @@
             <div class="rcard-body">
               <p class="rlabel">Организатору</p>
               <h3>Собирает поездку в&nbsp;одном окне</h3>
-              <ul class="ticks"><li><b>Всё в одном кабинете</b><span>Билеты, отели, трансферы, визы</span></li><li><b>Ответ за 15 минут</b><span>Свой куратор, можно в мессенджере</span></li><li><b>Спецтарифы</b><span>Корпоративные цены и бонусы</span></li></ul>
+              <ul class="ticks"><li><b>Онлайн или через менеджера</b><span>Две платформы и сервисная команда</span></li><li><b>Персональный менеджер</b><span>Выделенная команда и поддержка 24/7</span></li><li><b>Спецтарифы</b><span>Условия под объём поездок</span></li></ul>
             </div>
           </article>
           <article class="rcard" data-r>
             <figure class="role-photo slot"><img src="assets/role-accountant.jpg" alt="" loading="lazy" decoding="async"><figcaption>Фото бухгалтера · assets/role-accountant.jpg</figcaption></figure>
             <div class="rcard-body">
               <p class="rlabel">Бухгалтеру</p>
-              <h3>Получает документы вовремя</h3>
-              <ul class="ticks"><li><b>Персональный бухгалтер</b><span>На стороне Аэротона</span></li><li><b>Сводные счета</b><span>За период, с cost center</span></li><li><b>ЭДО и реестры</b><span>Диадок, СБИС, выгрузка в XML</span></li></ul>
+              <h3>Получает нужные документы</h3>
+              <ul class="ticks"><li><b>Интеграция с 1С</b><span>Настройка по вашему ТЗ</span></li><li><b>Сводные счета</b><span>За период, с cost center</span></li><li><b>ЭДО и реестры</b><span>Диадок, СБИС, выгрузка в XML</span></li></ul>
             </div>
           </article>
           <article class="rcard" data-r style="--d:.08s">
@@ -249,30 +262,30 @@
             <div class="rcard-body">
               <p class="rlabel">Сотруднику</p>
               <h3>Знает, к&nbsp;кому идти</h3>
-              <ul class="ticks"><li><b>Поддержка 24/7</b><span>365 дней в году</span></li><li><b>Планы изменились</b><span>Поменяем билет или бронь</span></li><li><b>Визы и страховка</b><span>Консультация и сопровождение</span></li></ul>
+              <ul class="ticks"><li><b>Поддержка 24/7</b><span>365 дней в году</span></li><li><b>Планы изменились</b><span>Проверим условия обмена и возврата</span></li><li><b>Визы и страховка</b><span>Консультация и сопровождение</span></li></ul>
             </div>
           </article>
         </div>
-        <p class="center rcta" data-r><a class="btn" href="#request">Подключить компанию <svg class="arr" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a> <a class="btn btn-purple" href="#quiz">Рассчитать выгоду</a></p>
+        <p class="center rcta" data-r><a class="btn" href="#request">Подключить компанию <svg class="arr" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a> <a class="btn btn-purple" href="#quiz">Подобрать решение</a></p>
       </div>
     </section>
 
     <!-- 6. Сравнение -->
     <section class="wrap sect" id="compare" aria-labelledby="compare-title">
       <h2 id="compare-title" class="h-big center" data-r>С Аэротоном проще</h2>
-      <!-- Цифры: «с 2009», «300+ авиакомпаний», «15 минут», «24/7» взяты с ru.aerotone.ru; «3 млн+ отелей» и «0 ₽» — типовые для рынка, подтвердить у клиента (см. 09) -->
+
       <ul class="stats" data-r>
         <li><b>с 2009</b><span>управляем деловыми поездками</span></li>
         <li><b>300+</b><span>авиакомпаний в бронировании</span></li>
-        <li data-verify><b>3 млн+</b><span>отелей и апартаментов по всему миру</span></li>
+        <li><b>2</b><span>онлайн-платформы для бронирования</span></li>
         <li><b>24/7</b><span>«Сервис 24/7», 365 дней в году</span></li>
-        <li><b>15 мин</b><span>максимум на ответ по заявке</span></li>
-        <li data-verify><b>0 ₽</b><span>за подключение и пользование платформой</span></li>
+        <li><b>до 15 мин</b><span>ориентир первичной реакции</span></li>
+        <li><b>0 ₽</b><span>за использование платформы</span></li>
       </ul>
       <div class="cmpgrid" role="table" aria-label="Сравнение: с Аэротоном и самостоятельное бронирование" data-r>
         <div class="cmp-row cmp-head" role="row"><div class="cmp-cell yes" role="columnheader"><img src="assets/logo.svg" width="120" height="35" alt="Аэротон"></div><div class="cmp-cell no" role="columnheader">Бронируете сами</div></div>
         <div class="cmp-row" role="row"><div class="cmp-cell yes" role="cell">Всё в одном окне</div><div class="cmp-cell no" role="cell">Каждая услуга — на своём сайте</div></div>
-        <div class="cmp-row" role="row"><div class="cmp-cell yes" role="cell">Отсрочка и сводный счёт</div><div class="cmp-cell no" role="cell">Платите картой, потом авансовый отчёт</div></div>
+        <div class="cmp-row" role="row"><div class="cmp-cell yes" role="cell">Отсрочка по согласованию и сводный счёт</div><div class="cmp-cell no" role="cell">Платите картой, потом авансовый отчёт</div></div>
         <div class="cmp-row" role="row"><div class="cmp-cell yes" role="cell">Документы по ЭДО или курьером</div><div class="cmp-cell no" role="cell">Чеки собирают вручную</div></div>
         <div class="cmp-row" role="row"><div class="cmp-cell yes" role="cell">Поддержка 24/7 и свой куратор</div><div class="cmp-cell no" role="cell">Рейс перенесли — разбирайтесь сами</div></div>
         <div class="cmp-row" role="row"><div class="cmp-cell yes" role="cell">Тревел-политика и лимиты</div><div class="cmp-cell no" role="cell">Расходы видно, когда придут отчёты</div></div>
@@ -284,7 +297,7 @@
     <section class="wrap sect" id="quiz" aria-labelledby="quiz-title">
       <div class="quiz" data-r>
         <div class="quiz-head">
-          <h2 id="quiz-title" class="h-big">Посчитайте, <span class="hl">сколько ваш бизнес теряет</span> на командировках сейчас</h2>
+          <h2 id="quiz-title" class="h-big">Подберите <span class="hl">решение для командировок</span> вашей компании</h2>
         </div>
         <div class="quiz-box" data-step="1">
           <div class="quiz-progress" aria-hidden="true"><i></i></div>
@@ -313,15 +326,11 @@
             <div class="opts"><button type="button" data-v="none">Нет, каждый решает сам</button><button type="button" data-v="manual">Есть, но проверяем вручную</button><button type="button" data-v="auto">Есть, и они работают автоматически</button></div>
           </div>
           <div class="qresult" hidden aria-live="polite">
-            <p class="qr-lead">Оценка для вашей компании</p>
+            <p class="qr-lead">Что обсудить на демо</p>
             <p class="qr-ctx"></p>
-            <div class="qr-nums">
-              <div><b data-out="money">—</b><span>экономии в год, ₽</span></div>
-              <div><b data-out="hours">0</b><span>часов сотрудников в год</span></div>
-            </div>
             <p class="qr-verdict"></p>
-            <div class="qr-cta"><a class="btn" href="#request" data-qgo>Подключить бесплатно <svg class="arr" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a><button class="btn btn-line" type="button" data-qreset>Пройти заново</button></div>
-            <p class="qr-note">Оценка ориентировочная. Цены — по открытым данным рынка за 2025–2026 годы: перелёт по России около 18 тыс. ₽ в одну сторону, отель 6–8 тыс. ₽ за ночь. Экономия: до 30% на отелях по специальным тарифам и до 5% на билетах (оценка). Точный расчёт сделаем после знакомства с вашими поездками.</p>
+            <div class="qr-cta"><a class="btn" href="#request" data-qgo>Получить демо <svg class="arr" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a><button class="btn btn-line" type="button" data-qreset>Пройти заново</button></div>
+            <p class="qr-note">Экономию можно оценить после анализа реальных поездок, текущих расходов и сервисных сборов.</p>
           </div>
           <button class="qback" type="button" hidden>← Назад</button>
         </div>
@@ -341,7 +350,7 @@
         <li data-r style="--d:.1s">
           <div class="step-ill"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M22 10h28l12 12v48H22z" fill="#ece3f7"/><path d="M50 10v12h12" fill="#d9c8ef"/><path d="M30 34h22M30 44h22M30 54h12" stroke="#662d91" stroke-width="4" stroke-linecap="round"/><path d="M44 62c4-6 8 2 12-4" fill="none" stroke="#72bf44" stroke-width="3" stroke-linecap="round"/></svg><span class="num">2</span></div>
           <h3>Подпишите договор</h3>
-          <p>Согласуем условия вместе с вами</p>
+          <p>Работаем по договору оказания услуг</p>
           <ul class="mini"><li>Драфт договора</li><li>Подписание</li></ul>
         </li>
         <li data-r style="--d:.2s">
@@ -351,7 +360,7 @@
           <ul class="mini"><li>Свой менеджер</li><li>Доступ в кабинет</li></ul>
         </li>
       </ol>
-      <p class="after" data-r>…и отправляйте команду в путь спокойно</p>
+      <p class="after" data-r>Срок запуска зависит от настроек и интеграций, которые нужны вашей компании.</p>
     </section>
 
     <!-- 8. Вопросы -->
@@ -371,12 +380,14 @@
         </div>
       </div>
       <div class="faq-list" data-r style="--d:.1s">
-        <details open><summary>Сколько стоит обслуживание?</summary><p>Платформа бесплатна: без абонентской платы, скрытых комиссий и платы за подключение. Аэротон получает вознаграждение от авиакомпаний и отелей.</p></details>
+        <details open><summary>Сколько стоит обслуживание?</summary><p>Отдельной платы за использование онлайн-платформы нет. Вы оплачиваете оформленные услуги и сервисные сборы. Их размер согласовываем индивидуально с учётом объёма и формата работы.</p></details>
         <details><summary>Можно ли оформлять поездки за границу?</summary><p>Да. Билеты на все направления, отели, трансферы по всему миру, визы и страхование.</p></details>
-        <details><summary>Как оплачивать поездки?</summary><p>Безналичный расчёт: постоплата или аванс, разовые или сводные счета за период. Также картой или наличными.</p></details>
+        <details><summary>Как оплачивать поездки?</summary><p>Работаем по договору. Возможна отсрочка платежа — условия согласовываем индивидуально. Порядок расчётов и выставления счетов закрепляем до начала работы.</p></details>
         <details><summary>Какие документы получит бухгалтерия?</summary><p>Счета, счета-фактуры, акты и маршрутные квитанции. По ЭДО (Диадок, СБИС и др.) или курьером — плановая доставка бесплатна.</p></details>
         <details><summary>Что делать, если планы изменились?</summary><p>Напишите куратору или в «Сервис 24/7» — работаем круглосуточно, 365 дней в году.</p></details>
-        <details><summary>Можно бронировать самостоятельно?</summary><p>Да, в личном кабинете — в любое время и с любого устройства.</p></details>
+        <details><summary>Можно бронировать самостоятельно?</summary><p>Да. Для бронирования используем две онлайн-платформы. Услуги можно оформлять самостоятельно или через менеджера.</p></details>
+        <details><summary>Можно настроить правила и интеграции?</summary><p>Да. Настраиваем Travel Policy, лимиты, грейды, права пользователей и маршруты согласования. При превышении лимита — запрет или дополнительное согласование по вашим правилам. Интеграции с 1С, ЭДО и другими системами по API настраиваем по вашему ТЗ.</p></details>
+        <details><summary>Как обрабатываются персональные данные?</summary><p>Аэротон работает в соответствии с требованиями 152-ФЗ. Подробнее — в <a href="https://ru.aerotone.ru/privacy-policy">политике обработки персональных данных</a> на основном сайте.</p></details>
         <details><summary>Как начать работать?</summary><p>Оставьте заявку: пришлём предложение, согласуем договор, познакомим с менеджером и откроем доступ.</p></details>
       </div>
     </section>
@@ -386,25 +397,29 @@
       <div class="final">
         <div class="final-copy" data-r>
           <h2 id="request-title" class="h-big">Начните оптимизировать командировки <span class="hl">уже сегодня</span></h2>
-          <p>Оставьте контакты — подключим бесплатно и&nbsp;покажем кабинет.</p>
+          <p>Оставьте контакты — покажем возможности онлайн-бронирования и подберём условия для вашей компании.</p>
+          <p class="sales-contacts"><a href="tel:+74954450077">+7 (495) 445-00-77</a> · <a href="mailto:info@aerotone.ru">info@aerotone.ru</a></p>
           <div class="msgr" hidden><span>Или напишите нам:</span><a class="btn btn-line btn-sm" data-ch="telegram" href="#" hidden>Telegram</a><a class="btn btn-line btn-sm" data-ch="whatsapp" href="#" hidden>WhatsApp</a></div>
         </div>
-        <form id="lead-form" method="post" data-r style="--d:.1s">
+        <form id="lead-form" method="post" aria-describedby="lead-availability" data-r style="--d:.1s">
+          <p id="lead-availability" class="lead-availability">Форма готовится к подключению. Пока можно позвонить или написать на почту выше.</p>
           <fieldset disabled>
             <legend class="sr">Данные для обратной связи</legend>
             <div class="fields">
-              <label>Имя<input name="name" autocomplete="off" required maxlength="100" pattern=".*\S.*" placeholder="Александр"></label>
-              <label>Компания<input name="company" autocomplete="off" required maxlength="160" pattern=".*\S.*" placeholder="Название компании"></label>
-              <label>Рабочая почта<input name="email" type="email" autocomplete="off" required maxlength="254" placeholder="name@example.com"></label>
+              <label>Имя<input name="name" autocomplete="name" required maxlength="100" pattern=".*\S.*" placeholder="Александр"></label>
+              <label>Компания<input name="company" autocomplete="organization" required maxlength="160" pattern=".*\S.*" placeholder="Название компании"></label>
+              <label>Рабочая почта<input name="email" type="email" autocomplete="email" required maxlength="254" placeholder="name@example.com"></label>
+              <label>Телефон <span class="opt">необязательно</span><input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+7"></label>
               <label>Командировок в месяц <span class="opt">необязательно</span>
                 <select name="trips"><option value="">Выберите</option><option value="q1">1–3</option><option value="q2">4–10</option><option value="q3">11–30</option><option value="q4">Больше 30</option></select>
               </label>
             </div>
+            <input name="website" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="agreement"><input id="agree" type="checkbox" name="consent" required aria-labelledby="agree-text"><label id="agree-text" for="agree">Согласен на <a href="privacy.html#consent" target="_blank" rel="noopener">обработку персональных данных</a></label></div>
             <button class="btn btn-block" type="submit">Оставить заявку <svg class="arr" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5"/></svg></button>
           </fieldset>
           <p class="form-status" role="status" aria-live="polite"></p>
-          <noscript><p>Для проверки формы включите JavaScript.</p></noscript>
+          <noscript><p>Для обращения позвоните +7 (495) 445-00-77 или напишите info@aerotone.ru.</p></noscript>
         </form>
       </div>
     </section>
@@ -424,14 +439,15 @@
       </div>
       <div class="f-col">
         <p class="f-h">Документы</p>
-        <a href="privacy.html#policy">Политика обработки персональных данных</a>
+        <a href="https://ru.aerotone.ru/privacy-policy">Политика обработки персональных данных</a>
+        <a href="https://ru.aerotone.ru/company/requisites">Реквизиты компании</a>
         <a href="privacy.html#consent">Согласие на обработку данных</a>
-        <a href="privacy.html#cookies">Использование cookie</a>
+        <a href="https://ru.aerotone.ru/cookie_consent">Использование cookie</a>
       </div>
     </div>
     <div class="wrap f-legal">
       <span>© 2009–2026 ООО «Аэротон Корпорейт Трэвел»</span>
-      <span>ИНН 9715001665 · ОГРН 5147746230759 · 127015, Москва, ул. Большая Новодмитровская, д. 14, стр. 4, этаж/пом./ком. 2/VI/2</span>
+      <span>ИНН 9715001665 · ОГРН 5147746230759 · 125315, Москва, ул. Усиевича, д. 31А, стр. 2</span>
     </div>
   </footer>
 
