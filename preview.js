@@ -4,16 +4,6 @@ document.documentElement.classList.add('js');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-// Форма макета: заявка никуда не отправляется.
-const form = document.querySelector('#lead-form');
-const status = form.querySelector('.form-status');
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-  status.textContent = 'Поля заполнены. Это проверка макета, заявка не отправлена.';
-});
-form.addEventListener('input', () => { status.textContent = ''; });
-form.querySelector('fieldset').disabled = false;
-
 // Появление блоков при прокрутке.
 const revealEls = document.querySelectorAll('[data-r]');
 if ('IntersectionObserver' in window && !reduced) {
@@ -98,95 +88,49 @@ const CONTACTS = {
   box.hidden = !any;
 })();
 
-// ===== Мини-квиз: шесть вопросов и оценка выгоды. Данные никуда не отправляются. =====
-// ВСЕ допущения собраны здесь. Цены и проценты — ориентировочные, их нужно подтвердить у клиента (см. 09).
-const QUIZ = {
-  // Экономия: до 30% на отелях (спецтарифы; заявляют Аэротон и конкуренты), до 5% на билетах (моя оценка, подтвердить).
-  savingHotel: 0.30,
-  savingTransport: 0.05,
-  lowFactor: 0.5,                                                   // нижняя граница диапазона = половина верхней
-  // Цены, ₽. Перелёт: GATE, январь–август 2026, эконом по России ≈ 18,1 тыс. в одну сторону → туда-обратно ≈ 36 тыс.; ж/д дешевле, поэтому в среднем 30 тыс.
-  transport: { ru: 30000, cis: 40000, world: 80000, mix: 45000 },   // дорога туда-обратно (СНГ и дальнее зарубежье — оценка)
-  // Ночь в отеле: «Ракета», зима 2025–2026 — 8 076 ₽; Bronevik, осень 2026, по России в среднем 6,2 тыс. ₽
-  hotelNight: { ru: 7000, cis: 7500, world: 13000, mix: 9000 },
-  nights: { short: 1, mid: 3, long: 6 },
-  shareByHow: { self: 1, office: 0.8, agency: 0.5, platform: 0.4 },   // какая часть максимума реальна при текущем способе оформления (оценка)
-  shareByRules: { none: 1, manual: 0.75, auto: 0.5 },                 // и при текущем контроле расходов (оценка)
-  minutesNow: { self: 90, office: 60, agency: 30, platform: 20 },     // минут на оформление одной поездки сейчас (оценка)
-  minutesDocs: { manual: 40, part: 20, edo: 5 },                      // минут на документы одной поездки (оценка)
-  minutesRules: { none: 0, manual: 15, auto: 0 },                     // минут на ручную проверку лимитов (оценка)
-  minutesWith: 15,                                                    // минут с Аэротоном (оценка)
-  formValue: { 2: 'q1', 7: 'q2', 20: 'q3', 40: 'q4' },
-};
+// Подбор тем для демо по ответам компании. Финансовый прогноз не рассчитывается.
 (() => {
   const box = document.querySelector('.quiz-box');
   if (!box) return;
   const steps = [...box.querySelectorAll('.qstep')];
-  const total = steps.length;
   const result = box.querySelector('.qresult');
   const back = box.querySelector('.qback');
   const bar = box.querySelector('.quiz-progress i');
-  const ans = {};
-  let cur = 1;
-  const show = (n) => {
-    cur = n;
-    steps.forEach((s) => { s.hidden = Number(s.dataset.q) !== n; });
-    result.hidden = n !== 'done';
-    box.dataset.step = String(n);
-    bar.style.width = (n === 'done' ? 100 : Math.round((n / total) * 100 - 8)) + '%';
-    back.hidden = n === 1 || n === 'done';
-  };
-  const fmtInt = (n) => Math.round(n).toLocaleString('ru-RU');
-  const money = (n) => {
-    const r = Math.round(n / 10000) * 10000;
-    return r >= 1000000 ? (r / 1000000).toFixed(1).replace('.', ',') + ' млн' : fmtInt(r / 1000) + ' тыс.';
-  };
-  const countTo = (el, to) => {
-    if (reduced) { el.textContent = fmtInt(to); return; }
-    const t0 = performance.now();
-    const tick = (t) => {
-      const k = Math.min(1, (t - t0) / 900);
-      el.textContent = fmtInt(to * (1 - Math.pow(1 - k, 3)));
-      if (k < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  };
-  const finish = () => {
-    const trips = Number(ans[1]);
-    const tripsYear = trips * 12;
-    const transportYear = tripsYear * QUIZ.transport[ans[2]];
-    const hotelYear = tripsYear * QUIZ.hotelNight[ans[2]] * QUIZ.nights[ans[3]];
-    const spendYear = transportYear + hotelYear;
-    const share = QUIZ.shareByHow[ans[4]] * QUIZ.shareByRules[ans[6]];
-    const high = (hotelYear * QUIZ.savingHotel + transportYear * QUIZ.savingTransport) * share;
-    const low = high * QUIZ.lowFactor;
-    const nowMin = QUIZ.minutesNow[ans[4]] + QUIZ.minutesDocs[ans[5]] + QUIZ.minutesRules[ans[6]];
-    const hours = Math.round((trips * 12 * Math.max(0, nowMin - QUIZ.minutesWith)) / 60);
+  const answers = {};
+  let current = 1;
+  function show(step) {
+    current = step;
+    steps.forEach((item) => { item.hidden = Number(item.dataset.q) !== step; });
+    result.hidden = step !== 'done';
+    box.dataset.step = String(step);
+    bar.style.width = (step === 'done' ? 100 : Math.round(step / steps.length * 100)) + '%';
+    back.hidden = step === 1 || step === 'done';
+  }
+  function finish() {
     show('done');
-    result.querySelector('.qr-ctx').textContent = 'Ваши поездки — примерно ' + fmtInt(trips * 12) + ' в год на ' + money(spendYear) + ' ₽ по средним рыночным ценам.';
-    result.querySelector('[data-out="money"]').textContent = 'от ' + money(low) + ' до ' + money(high);
-    countTo(result.querySelector('[data-out="hours"]'), hours);
-    const v = result.querySelector('.qr-verdict');
-    if (trips <= 3 && (ans[4] === 'agency' || ans[4] === 'platform') && ans[5] === 'edo' && ans[6] === 'auto') {
-      v.textContent = 'У вас всё уже налажено, и поездок немного — возможно, вам удобнее продолжить как сейчас. Платформа бесплатная, поэтому можно подключить её «про запас».';
-    } else if (ans[5] !== 'edo') {
-      v.textContent = 'Больше всего времени уходит на бумаги. Документы по ЭДО, сводные счета и персональный бухгалтер уберут эту рутину.';
-    } else if (ans[6] === 'none') {
-      v.textContent = 'Без правил расходы трудно контролировать. Лимиты в платформе не дадут сотруднику забронировать лишнее.';
-    } else {
-      v.textContent = 'Платформа бесплатная и подойдёт вам: все поездки в одном окне, свои правила и лимиты, поддержка 24/7.';
+    const themes = ['Онлайн-бронирование и работа через менеджера'];
+    if (answers[5] !== 'edo') themes.push('ЭДО и интеграция с 1С');
+    if (answers[6] !== 'auto') themes.push('Лимиты и согласование поездок');
+    if (answers[2] !== 'ru') themes.push('Зарубежные поездки и визовое сопровождение');
+    result.querySelector('.qr-ctx').textContent = themes.join(' · ');
+    result.querySelector('.qr-verdict').textContent = 'Покажем подходящие сценарии и обсудим условия обслуживания. Отдельной платы за использование платформы нет, сервисные сборы согласуем индивидуально.';
+    const trips = {2: 'q1', 7: 'q2', 20: 'q3', 40: 'q4'};
+    document.querySelector('#lead-form [name="trips"]').value = trips[answers[1]] || '';
+    document.querySelector('#lead-form').dataset.quiz = JSON.stringify(answers);
+  }
+  box.addEventListener('click', (event) => {
+    const button = event.target.closest('.opts button');
+    if (button) {
+      answers[current] = button.dataset.v;
+      if (current < steps.length) show(current + 1); else finish();
     }
-    document.querySelector('#lead-form [name="trips"]').value = QUIZ.formValue[trips] || '';
-  };
-  box.addEventListener('click', (e) => {
-    const b = e.target.closest('.opts button');
-    if (b) {
-      ans[cur] = b.dataset.v;
-      if (cur < total) show(cur + 1); else finish();
-      return;
+    if (event.target.closest('.qback')) show(current - 1);
+    if (event.target.closest('[data-qreset]')) {
+      Object.keys(answers).forEach((key) => delete answers[key]);
+      delete document.querySelector('#lead-form').dataset.quiz;
+      document.querySelector('#lead-form [name="trips"]').value = '';
+      show(1);
     }
-    if (e.target.closest('.qback')) show(cur - 1);
-    if (e.target.closest('[data-qreset]')) show(1);
   });
   show(1);
 })();

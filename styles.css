@@ -744,3 +744,19 @@ fieldset { min-width: 0; padding: 0; margin: 0; border: 0; }
 
 .c-e p { margin-bottom: 28px; }
 .c-e .ill-rules { margin-top: auto; }
+
+/* Client-confirmed services and contact alternatives. */
+.extra-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.extra-grid article { border-radius: 16px; padding: 20px; background: #f5f1f8; }
+.extra-grid h3 { font-size: 20px; }
+.extra-grid p { margin: 8px 0 0; font-size: 15px; }
+.sales-contacts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.lead-availability { font-size: 14px; margin: 0 0 14px; }
+fieldset:disabled { opacity: .65; }
+@media (max-width: 800px) { .extra-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) {
+  .extra-grid { gap: 8px; }
+  .extra-grid article { padding: 12px; }
+  .extra-grid h3 { font-size: 16px; }
+  .extra-grid p { font-size: 13px; }
+}
