@@ -762,12 +762,9 @@ fieldset:disabled { opacity: .65; }
 }
 
 /* Shared heading alignment and compact contact forms. */
-main h1, main h2, main h3 { text-align: center; }
 .extra-services > .lead { color: var(--ink); text-align: center; margin-bottom: 20px; }
-.hl-copy .lead { text-align: center; }
 .hl-copy .facts { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .hl-copy .facts li { white-space: normal; }
-.hl-copy .hero-cta { justify-content: center; }
 .fields label { align-content: start; }
 .quiz-reset { display: block; margin: 14px 0 0; padding: 7px 0; border: 0; background: transparent; color: #6e647b; font: inherit; font-size: 14px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .quiz-reset:hover { color: var(--purple); }
@@ -781,3 +778,9 @@ main h1, main h2, main h3 { text-align: center; }
   .extra-services > .lead { margin-bottom: 14px; }
 }
 [data-quiz-open][hidden], #quiz-lead-form[hidden] { display: none !important; }
+
+/* Align content by component, preserving the original hero and card layout. */
+.hl-copy, .hl-copy h1, .hl-copy .lead, .card h3, .rcard h3 { text-align: left; }
+.hl-copy .hero-cta { justify-content: flex-start; }
+.extra-grid article { text-align: center; }
+.stats li { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }

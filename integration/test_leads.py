@@ -3,7 +3,7 @@ import unittest
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import Mock
-from lead_server import LeadService
+from lead_server import LeadService, normalize_email, normalize_phone
 
 
 class DeliveryTests(unittest.TestCase):
@@ -73,6 +73,33 @@ class DeliveryTests(unittest.TestCase):
         sent = json.loads(request.call_args[0][0].data)[0]['_embedded']
         self.assertEqual(sent['companies'], [])
         self.assertEqual(sent['contacts'][0]['custom_fields_values'][1]['field_code'], 'PHONE')
+
+
+class ContactValidationTests(unittest.TestCase):
+    def test_invalid_addresses_are_rejected(self):
+        for value in ['', 'name', 'name@company', 'name@company.c', '.name@company.ru',
+                      'name..surname@company.ru', 'name@-company.ru', 'name@company..ru',
+                      'name@company.123', 'name@company.invalid', 'name@company.test']:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                normalize_email(value)
+
+    def test_work_addresses_remain_valid(self):
+        for value in ['name+travel@company.ru', 'name.surname@sub.company.com', 'a@xn--e1afmkfd.xn--p1ai']:
+            self.assertEqual(normalize_email(value), value)
+
+    def test_phone_normalization(self):
+        for value, expected in [('8 (495) 123-45-67', '+74951234567'),
+                                ('916 123-45-67', '+79161234567'),
+                                ('+44 20 7946 0958', '+442079460958'),
+                                ('+81 90 1234 567', '+81901234567')]:
+            with self.subTest(value=value):
+                self.assertEqual(normalize_phone(value), expected)
+
+    def test_obvious_invalid_numbers_are_rejected(self):
+        for value in ['', '123', '+7', '4951234567', '+00000000000', '+79999999999',
+                      '8 999 123', '++74951234567', '+7abc4951234567', '+12345678901']:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                normalize_phone(value)
 
 
 if __name__ == '__main__':

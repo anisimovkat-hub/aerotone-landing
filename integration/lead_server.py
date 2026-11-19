@@ -15,6 +15,37 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 
+def normalize_email(value):
+    parts = value.split('@')
+    if len(parts) != 2 or len(parts[0]) > 64:
+        raise ValueError('Invalid email')
+    local, domain = parts
+    labels = domain.split('.')
+    if (not re.fullmatch(r"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+", local)
+            or local.startswith('.') or local.endswith('.') or '..' in local
+            or len(labels) < 2
+            or any(not re.fullmatch(r'[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?', label) for label in labels)
+            or not re.fullmatch(r'(?:[a-zA-Z]{2,63}|xn--[a-zA-Z0-9-]{2,59})', labels[-1])
+            or labels[-1].lower() in ('invalid', 'test', 'localhost')):
+        raise ValueError('Invalid email')
+    return local + '@' + domain.lower()
+
+
+def normalize_phone(value):
+    digits = re.sub(r'[^0-9]', '', value)
+    if len(digits) == 10 and digits.startswith('9'):
+        digits = '7' + digits
+    if len(digits) == 11 and digits.startswith('8') and not value.startswith('+'):
+        digits = '7' + digits[1:]
+    russian = digits.startswith('7')
+    length_valid = len(digits) == 11 if russian else value.startswith('+') and bool(re.fullmatch(r'[1-9][0-9]{7,14}', digits))
+    if (not re.fullmatch(r'[+]?[0-9 ()-]+', value) or not length_valid
+            or re.fullmatch(r'([0-9])\1+', digits[1:])
+            or digits in ('1234567890', '12345678901', '9876543210')):
+        raise ValueError('Invalid phone')
+    return '+' + digits
+
+
 class LeadService:
     def __init__(self, database, domain, token, pipeline, origin, page, consent, context_field):
         if not re.fullmatch(r'[a-z0-9-]+\.amocrm\.ru', domain):
@@ -52,10 +83,8 @@ class LeadService:
             raise ValueError('Invalid form type')
         if form_type == 'main' and (not data['name'] or not data['company']):
             raise ValueError('Required name and company')
-        if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', data['email']):
-            raise ValueError('Required fields')
-        if not re.fullmatch(r'[+0-9 ()-]{7,30}', data['phone']) or not 7 <= len(re.sub(r'[^0-9]', '', data['phone'])) <= 15:
-            raise ValueError('Invalid phone')
+        data['email'] = normalize_email(data['email'])
+        data['phone'] = normalize_phone(data['phone'])
         if data.get('consent') is not True or data.get('consent_version') != self.consent:
             raise ValueError('Consent required')
         if data.get('page') != self.page:

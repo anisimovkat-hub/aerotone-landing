@@ -122,8 +122,6 @@ const CONTACTS = {
     if (answers[2] !== 'ru') themes.push('Зарубежные поездки и визовое сопровождение');
     result.querySelector('.qr-ctx').textContent = themes.join(' · ');
     result.querySelector('.qr-verdict').textContent = 'Покажем подходящие сценарии и обсудим условия обслуживания. Отдельной платы за использование платформы нет, сервисные сборы согласуем индивидуально.';
-    const trips = {2: 'q1', 7: 'q2', 20: 'q3', 40: 'q4'};
-    document.querySelector('#lead-form [name="trips"]').value = trips[answers[1]] || '';
     document.querySelectorAll('[data-lead-form]').forEach((form) => {
       form.dataset.quiz = JSON.stringify(answers);
     });
@@ -142,7 +140,6 @@ const CONTACTS = {
       openForm.hidden = false;
       openForm.setAttribute('aria-expanded', 'false');
       leadForm.querySelector('.form-status').textContent = '';
-      document.querySelector('#lead-form [name="trips"]').value = '';
       show(1);
     }
   });

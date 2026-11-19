@@ -6,28 +6,54 @@
     const endpoint = config.endpoint;
     const connected = Boolean(endpoint && (endpoint.startsWith('/') && !endpoint.startsWith('//') || endpoint.startsWith('https://')));
     const phone = form.querySelector('[name="phone"]');
-    function validatePhone() {
-      const digits = phone.value.replace(/\D/g, '');
-      phone.setCustomValidity(phone.value && (!/^[+0-9 ()-]+$/.test(phone.value) || digits.length < 7 || digits.length > 15)
-        ? 'Введите номер телефона, от 7 до 15 цифр.' : '');
+    const email = form.querySelector('[name="email"]');
+    function validateContacts() {
+      const rawPhone = phone.value.trim();
+      let digits = rawPhone.replace(/\D/g, '');
+      if (digits.length === 10 && digits.startsWith('9')) digits = '7' + digits;
+      if (digits.length === 11 && digits.startsWith('8') && !rawPhone.startsWith('+')) digits = '7' + digits.slice(1);
+      const russian = digits.startsWith('7');
+      const phoneValid = /^[+]?[0-9 ()-]+$/.test(rawPhone) &&
+        (russian ? digits.length === 11 : rawPhone.startsWith('+') && /^[1-9][0-9]{7,14}$/.test(digits)) &&
+        !/^([0-9])\1+$/.test(digits.slice(1)) && !['1234567890', '12345678901', '9876543210'].includes(digits);
+      phone.setCustomValidity(rawPhone && !phoneValid
+        ? 'Проверьте номер. Для России — 11 цифр с 7 или 8, для других стран — номер с + и кодом страны.' : '');
+      const address = email.value.trim();
+      const parts = address.split('@');
+      const local = parts[0] || '';
+      const domain = parts[1] || '';
+      const labels = domain.split('.');
+      const emailValid = parts.length === 2 && local.length <= 64 && address.length <= 254 &&
+        /^[a-z0-9!#$%&'*+/=?^_\x60{|}~.-]+$/i.test(local) && !local.startsWith('.') && !local.endsWith('.') && !local.includes('..') &&
+        labels.length >= 2 && labels.every((label) => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label)) &&
+        /^(?:[a-z]{2,63}|xn--[a-z0-9-]{2,59})$/i.test(labels.at(-1)) &&
+        !['invalid', 'test', 'localhost'].includes(labels.at(-1).toLowerCase());
+      email.setCustomValidity(address && !emailValid ? 'Введите почту в формате name@company.ru. Проверьте имя и домен.' : '');
+      return '+' + digits;
     }
+    phone.addEventListener('blur', () => {
+      const normalized = validateContacts();
+      if (phone.value && phone.validity.valid) phone.value = normalized;
+    });
+    email.addEventListener('blur', () => { email.value = email.value.trim(); validateContacts(); });
     let attempt = null;
     let busy = false;
     const reported = new Set();
-    form.addEventListener('input', () => { status.textContent = ''; validatePhone(); });
+    form.addEventListener('input', () => { status.textContent = ''; validateContacts(); });
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      validatePhone();
+      validateContacts();
       if (busy || !form.reportValidity()) return;
       if (!connected) {
         status.textContent = 'Онлайн-отправка пока недоступна. Заявка не передана. Позвоните +7 (495) 445-00-77 или напишите info@aerotone.ru.';
         return;
       }
+      phone.value = validateContacts();
       const values = Object.fromEntries(new FormData(form));
       const payload = {
         form_type: form.dataset.leadForm,
         name: (values.name || '').trim(), company: (values.company || '').trim(), email: values.email.trim(),
-        phone: values.phone.trim(), trips: values.trips || '', consent: values.consent === 'on',
+        phone: values.phone.trim(), consent: values.consent === 'on',
         consent_version: config.consentVersion, website: values.website,
         page: location.origin + location.pathname,
         quiz: JSON.parse(form.dataset.quiz || '{}'),
