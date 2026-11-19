@@ -14,7 +14,7 @@ class DeliveryTests(unittest.TestCase):
                                    1, 'https://example.com', 'https://example.com/', 'v1', 123)
         self.service.deliver = Mock(return_value='crm-receipt')
         self.payload = dict(request_id=str(uuid.uuid4()), name='Тест', company='Тест',
-                            email='test@example.com', phone='', trips='', consent=True,
+                            email='test@example.com', phone='+74950000000', trips='', consent=True,
                             consent_version='v1', page='https://example.com/', website='',
                             quiz={}, attribution={})
 
@@ -41,6 +41,38 @@ class DeliveryTests(unittest.TestCase):
         self.assertEqual(self.service.submit(dict(self.payload, consent=False))[0], 400)
         self.assertEqual(self.service.submit(dict(self.payload, email='bad'))[0], 400)
         self.service.deliver.assert_not_called()
+
+    def test_quiz_accepts_contacts_without_name_or_company(self):
+        quiz = {'1': '2', '2': 'ru', '3': 'short', '4': 'self', '5': 'manual', '6': 'none'}
+        payload = dict(self.payload, form_type='quiz', name='', company='', quiz=quiz)
+        self.assertEqual(self.service.submit(payload)[1]['status'], 'created')
+        self.service.deliver.assert_called_once()
+
+    def test_phone_required_for_both_forms(self):
+        self.assertEqual(self.service.submit(dict(self.payload, phone=''))[0], 400)
+        self.assertEqual(self.service.submit(dict(self.payload, phone='-------'))[0], 400)
+        self.service.deliver.assert_not_called()
+
+    def test_main_still_requires_company(self):
+        self.assertEqual(self.service.submit(dict(self.payload, company=''))[0], 400)
+        self.service.deliver.assert_not_called()
+
+    def test_quiz_requires_complete_answers(self):
+        self.assertEqual(self.service.submit(dict(self.payload, form_type='quiz'))[0], 400)
+        self.service.deliver.assert_not_called()
+
+    def test_quiz_crm_payload_has_no_invented_company(self):
+        import io
+        import json
+        from contextlib import nullcontext
+        from unittest.mock import patch
+        payload = dict(self.payload, form_type='quiz', name='', company='')
+        response = {'_embedded': {'unsorted': [{'uid': 'receipt', 'request_id': payload['request_id']}]}}
+        with patch('lead_server.urlopen', return_value=nullcontext(io.StringIO(json.dumps(response)))) as request:
+            self.assertEqual(LeadService.deliver(self.service, payload), 'receipt')
+        sent = json.loads(request.call_args[0][0].data)[0]['_embedded']
+        self.assertEqual(sent['companies'], [])
+        self.assertEqual(sent['contacts'][0]['custom_fields_values'][1]['field_code'], 'PHONE')
 
 
 if __name__ == '__main__':

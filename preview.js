@@ -97,6 +97,14 @@ const CONTACTS = {
   const back = box.querySelector('.qback');
   const bar = box.querySelector('.quiz-progress i');
   const answers = {};
+  const leadForm = document.querySelector('#quiz-lead-form');
+  const openForm = box.querySelector('[data-quiz-open]');
+  openForm.addEventListener('click', () => {
+    leadForm.hidden = false;
+    openForm.hidden = true;
+    openForm.setAttribute('aria-expanded', 'true');
+    leadForm.querySelector('[name="email"]').focus();
+  });
   let current = 1;
   function show(step) {
     current = step;
@@ -116,7 +124,9 @@ const CONTACTS = {
     result.querySelector('.qr-verdict').textContent = 'Покажем подходящие сценарии и обсудим условия обслуживания. Отдельной платы за использование платформы нет, сервисные сборы согласуем индивидуально.';
     const trips = {2: 'q1', 7: 'q2', 20: 'q3', 40: 'q4'};
     document.querySelector('#lead-form [name="trips"]').value = trips[answers[1]] || '';
-    document.querySelector('#lead-form').dataset.quiz = JSON.stringify(answers);
+    document.querySelectorAll('[data-lead-form]').forEach((form) => {
+      form.dataset.quiz = JSON.stringify(answers);
+    });
   }
   box.addEventListener('click', (event) => {
     const button = event.target.closest('.opts button');
@@ -127,7 +137,11 @@ const CONTACTS = {
     if (event.target.closest('.qback')) show(current - 1);
     if (event.target.closest('[data-qreset]')) {
       Object.keys(answers).forEach((key) => delete answers[key]);
-      delete document.querySelector('#lead-form').dataset.quiz;
+      document.querySelectorAll('[data-lead-form]').forEach((form) => delete form.dataset.quiz);
+      leadForm.hidden = true;
+      openForm.hidden = false;
+      openForm.setAttribute('aria-expanded', 'false');
+      leadForm.querySelector('.form-status').textContent = '';
       document.querySelector('#lead-form [name="trips"]').value = '';
       show(1);
     }

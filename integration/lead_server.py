@@ -47,9 +47,14 @@ class LeadService:
             if not isinstance(value, str) or len(value) > maximum:
                 raise ValueError('Invalid field')
             data[key] = value.strip()
-        if not data['name'] or not data['company'] or not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', data['email']):
+        form_type = data.get('form_type', 'main')
+        if form_type not in ('main', 'quiz'):
+            raise ValueError('Invalid form type')
+        if form_type == 'main' and (not data['name'] or not data['company']):
+            raise ValueError('Required name and company')
+        if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', data['email']):
             raise ValueError('Required fields')
-        if data['phone'] and not re.fullmatch(r'[+\d ()-]{6,30}', data['phone']):
+        if not re.fullmatch(r'[+0-9 ()-]{7,30}', data['phone']) or not 7 <= len(re.sub(r'[^0-9]', '', data['phone'])) <= 15:
             raise ValueError('Invalid phone')
         if data.get('consent') is not True or data.get('consent_version') != self.consent:
             raise ValueError('Consent required')
@@ -66,6 +71,8 @@ class LeadService:
                    '4': ['self', 'office', 'agency', 'platform'], '5': ['manual', 'part', 'edo'], '6': ['none', 'manual', 'auto']}
         if not isinstance(quiz, dict) or any(k not in options or v not in options[k] for k, v in quiz.items()):
             raise ValueError('Invalid quiz')
+        if form_type == 'quiz' and set(quiz) != set(options):
+            raise ValueError('Quiz must be complete')
         return data
 
     def rate_allowed(self, ip):
@@ -85,17 +92,17 @@ class LeadService:
             contact_fields.append({'field_code': 'PHONE', 'values': [{'value': data['phone'], 'enum_code': 'WORK'}]})
         # A client-configured text area keeps the complete approved submission context.
         context = json.dumps({'trips': data.get('trips'), 'quiz': data.get('quiz'),
-                              'attribution': data.get('attribution'), 'consent_version': self.consent}, ensure_ascii=False)
+                              'attribution': data.get('attribution'), 'consent_version': self.consent, 'form_type': data.get('form_type', 'main')}, ensure_ascii=False)
         payload = [{
             'source_name': 'Аэротон — лендинг', 'source_uid': data['request_id'],
             'request_id': data['request_id'], 'pipeline_id': self.pipeline,
             'metadata': {'form_id': 'aerotone-landing', 'form_name': 'Демо Аэротона',
                          'form_page': self.page, 'form_sent_at': int(time.time())},
             '_embedded': {
-                'leads': [{'name': 'Демо Аэротона — ' + data['company'] + ' — ' + data['request_id'],
+                'leads': [{'name': 'Аэротон — ' + (data['company'] or 'Предложение по опросу') + ' — ' + data['request_id'],
                            'custom_fields_values': [{'field_id': self.context_field, 'values': [{'value': context}]}]}],
-                'contacts': [{'name': data['name'], 'custom_fields_values': contact_fields}],
-                'companies': [{'name': data['company']}],
+                'contacts': [{'name': data['name'] or 'Заявка с лендинга', 'custom_fields_values': contact_fields}],
+                'companies': [{'name': data['company']}] if data['company'] else [],
             },
         }]
         req = Request('https://' + self.domain + '/api/v4/leads/unsorted/forms',
