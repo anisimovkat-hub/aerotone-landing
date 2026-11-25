@@ -1,2 +1,3 @@
 User-agent: *
-Disallow: /
+# Crawling must remain possible so crawlers can read the noindex meta/header.
+Allow: /

@@ -3,6 +3,7 @@ Deploy behind HTTPS on the client-approved Russian server; see README.md.
 """
 import hashlib
 import hmac
+import ipaddress
 import json
 import os
 import re
@@ -180,7 +181,14 @@ class LeadService:
         return 503, {'status': 'pending' if state == 'uncertain' else 'unavailable', 'request_id': request_id}
 
 
-def make_handler(service):
+def visitor_ip(peer, forwarded, trusted_proxies):
+    """Trust the proxy-set address only when the connection is from an explicit proxy."""
+    if peer in trusted_proxies and forwarded:
+        return str(ipaddress.ip_address(forwarded.strip()))
+    return peer
+
+
+def make_handler(service, trusted_proxies=()):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_args):
             pass
@@ -211,7 +219,12 @@ def make_handler(service):
             if self.path != '/api/leads' or self.headers.get('Origin') != service.origin:
                 self.reply(403, {'status': 'forbidden'})
                 return
-            if not service.rate_allowed(self.client_address[0]):
+            try:
+                address = visitor_ip(self.client_address[0], self.headers.get('X-Real-IP'), trusted_proxies)
+            except ValueError:
+                self.reply(400, {'status': 'invalid'})
+                return
+            if not service.rate_allowed(address):
                 self.reply(429, {'status': 'limited'})
                 return
             try:
@@ -231,4 +244,7 @@ if __name__ == '__main__':
     service = LeadService(os.environ['LEADS_DB'], os.environ['AMO_DOMAIN'], os.environ['AMO_ACCESS_TOKEN'],
                           os.environ['AMO_PIPELINE_ID'], os.environ['ALLOWED_ORIGIN'],
                           os.environ['LANDING_URL'], os.environ['CONSENT_VERSION'], os.environ['AMO_CONTEXT_FIELD_ID'])
-    ThreadingHTTPServer(('127.0.0.1', int(os.environ.get('PORT', '8787'))), make_handler(service)).serve_forever()
+    trusted_proxies = tuple(ip.strip() for ip in os.environ.get('TRUSTED_PROXY_IPS', '').split(',') if ip.strip())
+    for address in trusted_proxies:
+        ipaddress.ip_address(address)
+    ThreadingHTTPServer(('127.0.0.1', int(os.environ.get('PORT', '8787'))), make_handler(service, trusted_proxies)).serve_forever()
