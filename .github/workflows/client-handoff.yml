@@ -1,0 +1,34 @@
+name: Client handoff
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check receiving adapter
+        run: python3 -m unittest discover -s integration -p 'test_*.py' -v
+      - name: Check packaging and noindex
+        run: python3 -m unittest discover -s tools -p 'test_*.py' -v
+      - name: Check JavaScript syntax
+        run: |
+          node --check lead-config.js
+          node --check lead-form.js
+          node --check preview.js
+      - name: Build disconnected handoff
+        run: python3 tools/build_release.py --site-url https://b2b.aerotone.ru --output dist/client-handoff
+      - uses: actions/upload-artifact@v4
+        with:
+          name: client-handoff
+          path: |
+            dist/client-handoff.zip
+            dist/client-handoff.zip.sha256
+          retention-days: 30

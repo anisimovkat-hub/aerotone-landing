@@ -3,7 +3,7 @@ import unittest
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import Mock
-from lead_server import LeadService, normalize_email, normalize_phone
+from lead_server import LeadService, normalize_email, normalize_phone, visitor_ip
 
 
 class DeliveryTests(unittest.TestCase):
@@ -76,6 +76,13 @@ class DeliveryTests(unittest.TestCase):
 
 
 class ContactValidationTests(unittest.TestCase):
+    def test_proxy_address_is_only_trusted_from_explicit_peer(self):
+        self.assertEqual(visitor_ip('127.0.0.1', '192.0.2.8', ('127.0.0.1',)), '192.0.2.8')
+        self.assertEqual(visitor_ip('192.0.2.9', '192.0.2.8', ('127.0.0.1',)), '192.0.2.9')
+        self.assertEqual(visitor_ip('127.0.0.1', '192.0.2.8', ()), '127.0.0.1')
+        with self.assertRaises(ValueError):
+            visitor_ip('127.0.0.1', 'invalid, 192.0.2.8', ('127.0.0.1',))
+
     def test_invalid_addresses_are_rejected(self):
         for value in ['', 'name', 'name@company', 'name@company.c', '.name@company.ru',
                       'name..surname@company.ru', 'name@-company.ru', 'name@company..ru',

@@ -1,0 +1,5 @@
+# Only inside the document root of the standalone landing subdomain.
+# Do not install in the main site's root. Requires mod_headers + AllowOverride FileInfo.
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>
